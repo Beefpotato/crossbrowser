@@ -2,10 +2,13 @@ package com.uscommunities.general;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -83,6 +86,14 @@ public class HomePageComponent extends WebElmtLocator {
 		WebElmtAction.open(driver, test3URL);
 	}
 	
+	public void openTest3SSURL(WebDriver driver) {
+		WebElmtAction.open(driver, t3ssurl);
+	}
+	
+	public void openProdSSURL(WebDriver driver) {
+		WebElmtAction.open(driver, wssurl);
+	}
+	
 	public boolean elementIsPresent(WebDriver driver) {
 		return WebElmtAction.isElementPresent(driver, By.xpath(EventDetails));
 	}
@@ -106,14 +117,66 @@ public class HomePageComponent extends WebElmtLocator {
 	public void checkAllLinksSaveToText(WebDriver driver) throws MalformedURLException, IOException{
 		WebElmtAction.getElement(driver, By.xpath(link)); 
 		List<WebElement> alllinks = driver.findElements(By.xpath("//*[@href]"));
-		  System.out.println(alllinks.size());
+		int number = alllinks.size();
+		System.out.println(number);
 		  
-		  for (int i=0; i<alllinks.size();i++){
-			  String x = alllinks.get(i).getAttribute("href");
-			  int y=WebElmtAction.linkcheck(x);
-			  WebElmtAction.writeToTextFile(x, y); 
-		  }
-	}
-
+		  Calendar cal = Calendar.getInstance();
+		  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+		  String fileName = format.format(cal.getTime());
+		  System.out.println(fileName);
+		  /**
+		   * create a file if doesn't exist
+		   */
+        	  try{
+        		    File file = new File("c:\\Users\\acui\\Documents\\Logfile\\Link_log_"+fileName+".txt");
+        		    BufferedWriter output = new BufferedWriter(new FileWriter(file));
+        		    
+        		    for (int i=0; i<alllinks.size();i++) {
+        		    	String x = alllinks.get(i).getAttribute("href");
+        		    	int y=WebElmtAction.linkcheck(x);
+        		    	output.write(x+"is "+y +'\n'); 
+        		    	}        		    
+        		    	output.close();
+        		   	}
+        	  			catch(IOException e){
+        	  			e.printStackTrace();
+        		   	   }
+        		  
+        		   driver.quit();
+	  }
 	
+	public void checkAllNewTabsSaveToText(WebDriver driver) throws MalformedURLException, IOException{
+		WebElmtAction.getElement(driver, By.xpath(link)); 
+		List<WebElement> alllinks = driver.findElements(By.xpath("//*[@href]"));
+		int number = alllinks.size();
+		  System.out.println(number);
+		  
+		  Calendar cal = Calendar.getInstance();
+		  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
+		  String fileName = format.format(cal.getTime());
+		  System.out.println(fileName);
+
+		  /**
+		   * create a file if doesn't exist
+		   */
+        	  try{
+        		    File file = new File("c:\\Users\\acui\\Documents\\Logfile\\Link_log_"+fileName+".txt");
+        		    BufferedWriter output = new BufferedWriter(new FileWriter(file));
+        		    
+        		    for (int i=0; i<alllinks.size();i++) {
+        		    	String x = alllinks.get(i).getAttribute("href");
+        		    	int y=WebElmtAction.linkcheck(x);
+        		    		
+        		    		if (y !=200) {
+        		    			output.write(x+"is "+y +'\n'); 
+        		    		}
+        		    	}        		    
+        		    	output.close();
+        		   	}
+        	  			catch(IOException e){
+        	  			e.printStackTrace();
+        		   	   }
+        		  
+        		   driver.quit();
+	  }
 }

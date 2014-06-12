@@ -1,5 +1,15 @@
 package com.uscommunities.general;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,6 +18,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
 
@@ -208,5 +220,46 @@ public class WebElmtAction {
 		  	 driver.get(url);
 
 	  }
+	
+	  
+	  public static int linkcheck(String url) throws MalformedURLException, IOException {
+		   URL u= new URL(url);
+		   HttpURLConnection con = (HttpURLConnection)  u.openConnection();
+		   int responseCode = con.getResponseCode();
+
+		   return responseCode;
+		   
+	   }
+	  
+	  //public static void writeToTextFile(String link, int number) throws IOException {
+		  public static File writeToTextFile() throws IOException {
+		  Calendar cal = Calendar.getInstance();
+		  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
+		  String fileName = format.format(cal.getTime());
+		  System.out.println(fileName);
+
+		  File file = new File("c:\\Users\\acui\\Documents\\Logfile" +fileName+ ".txt");
+		  /**
+		   * create a file if doesn't exist
+		   */
+          try {
+    		  if (!file.exists()) {
+  				file.createNewFile();
+  				}
+                 //file.createNewFile();
+          } catch (IOException e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+          }
+
+          return file; 
+		  
+		  //BufferedWriter out = new BufferedWriter(new FileWriter(file));
+		  //out.write(link+" is "+number);
+		  //out.close();
+		  //System.out.println("File created and done");
+
+	  }
+	
 	
 }
