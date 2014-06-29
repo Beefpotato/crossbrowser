@@ -6,17 +6,18 @@ import org.testng.annotations.Test;
 
 public class Click_Education_Test {
 
-	/*
+	/**
+	 * 
 	 * validate click Education page 
 	 */
 	 
-	@Test(groups = "www")
+	@Test
 
 		public void validateClickEducation(){
 			WebDriver driver = new FirefoxDriver();
-			HomePageComponent test= new HomePageComponent(driver);
-			test.openProdURL(driver);
-			test.clickEducation(driver);
+			HomePageComponent action= new HomePageComponent(driver);
+			action.openProdURL(driver);
+			action.clickEducation(driver);
 			driver.quit();
 	}
 }

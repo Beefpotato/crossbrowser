@@ -14,26 +14,14 @@ public class CSCDA_Page_MeetingAgenda_Test {
 
 	@Test
 	  
-	public void checkAllProdPageLinks() throws MalformedURLException, IOException{
-		/*
-		 * System.setProperty("webdriver.IE.driver", "c://IEDriverServer.exe");
-		WebDriver driver = new InternetExplorerDriver();   
-		File file = new File("c://IEDriverServer.exe");
-		System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
-		DesiredCapabilities caps = DesiredCapabilities
-				.internetExplorer();
-		caps.setCapability("ignoreZoomSetting", true);
-		WebDriver driver = new InternetExplorerDriver(caps);
-		*
-		*/
-		
+	public void checkAllProdPageLinks() throws MalformedURLException, IOException{		
 		System.setProperty("webdriver.chrome.driver", "c://chromedriver.exe");
 		WebDriver driver = new ChromeDriver();  
-		//WebDriver driver = new InternetExplorerDriver();
-		//WebDriver driver = new FirefoxDriver();
-		  HomePageComponent action=new HomePageComponent(driver);
-		  action.openCSCDAMtgURL(driver); 
-		  action.checkAllLinksSaveToText(driver);        
+		 
+		HomePageComponent action=new HomePageComponent(driver);
+		action.openCSCDAMtgURL(driver); 
+		action.checkAllLinksSaveToText(driver);   
+		driver.quit();
 	}
 	
 }

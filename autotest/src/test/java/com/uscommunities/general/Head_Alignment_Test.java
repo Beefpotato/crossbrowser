@@ -13,7 +13,8 @@ public class Head_Alignment_Test {
 			WebDriver driver = new FirefoxDriver();
 			HomePageComponent test= new HomePageComponent(driver);
 			test.openProdURL(driver);
-			/*
+			/**
+			 * 
 			 * Print out Y position value of two tags: About and News&Events
 			 * To prove horizontally alignment, the Y position value should be same 
 			 */

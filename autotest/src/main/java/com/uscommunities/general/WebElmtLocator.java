@@ -8,6 +8,7 @@ public class WebElmtLocator {
 		super();
 	}
 	
+	
 	/*
 	 * Test URL
 	 */
@@ -65,7 +66,15 @@ public class WebElmtLocator {
 	public String wssurl = "http://www.uscommunities.org/resources/state-statutes/"; 
 	public String t3ssurl = "http://test3.uscommunities.org/resources/state-statutes/";
 	
-	/**
+	/*
+	 * Contracts and Suppliers link  
+	 */
+	public String contactDoc = "//li[@class='trigger']//a[text()='Contract Documents']";
+	public String amsan = "http://test3.uscommunities.org/suppliers/amsan-cleansource-janpak/";
+	
+	
+	
+	/*
 	 * CSCDA site
 	 * 
 	 * Meeting agenda pdf can't find in IE10 (Christine reported on June 11th, 2014)

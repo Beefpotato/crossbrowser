@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,11 +18,16 @@ import javax.net.ssl.HttpsURLConnection;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import com.sun.jna.platform.FileUtils;
 
 /**
 
@@ -37,11 +43,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class WebElmtAction {
 
+	  private static final String TIME_FORMAT = "HH_mm_ss_SSS";
+	  private static final String DATE_FORMAT = "yyyy_MM_dd";
+	  private static final String SCREEN_SHOT_DIR = "target/surefire-reports/screenshots/";
+	  private static final String FORWARD_SLASH = "/";
+	  private static final String SCREEN_SHOT_EXTENSION = ".jpg";
 	
 	public WebElmtAction() {
 		super();
 	}
-
 
 	public static void Click(final WebDriver driver, final By locator)
 		      throws RuntimeException {
@@ -92,7 +102,8 @@ public class WebElmtAction {
 		    if (isElementPresent(driver, locator)) {
 		      return driver.findElement(locator).getText();
 		    }
-		    throw new ElementNotFoundException(locator, "Could not getText", driver);
+		   return null; 
+		    //throw new ElementNotFoundException(locator, "Could not getText", driver);
 		  }
 
 	
@@ -101,6 +112,7 @@ public class WebElmtAction {
 	 * 
 	 * @param driver
 	 */
+	 
 	public List<String> createLinkList(WebDriver driver) {
 		List<String> hrefs = new ArrayList<String>();
 		List<WebElement> links = driver.findElements(By.tagName("a"));
@@ -264,13 +276,42 @@ public class WebElmtAction {
           }
 
           return file; 
-		  
-		  //BufferedWriter out = new BufferedWriter(new FileWriter(file));
-		  //out.write(link+" is "+number);
-		  //out.close();
-		  //System.out.println("File created and done");
 
 	  }
 	
-	
+		  /**
+
+		   * Captures the screenshot of the current page when the SCREENSHOT system
+
+		   * property is set to 'on'. eg:SCREENSHOT=ON in bat and your pom.xml should
+
+		   * have the SCREENSHOT property defined.
+
+		   * <b>USAGE:</b>
+
+		   * @param driver
+
+		   */
+		  public static String captureScreenShot(WebDriver driver) {
+
+			    if ("on".equalsIgnoreCase(System.getProperty("SCREENSHOT"))) {
+
+			        final DateFormat df = new SimpleDateFormat(TIME_FORMAT);
+			        final DateFormat dfFolder = new SimpleDateFormat(DATE_FORMAT);
+			        File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+			        String fileName = SCREEN_SHOT_DIR + dfFolder.format(new Date())
+			            + FORWARD_SLASH + df.format(new Date()) + SCREEN_SHOT_EXTENSION;
+			        String link = "  <b><a href='" + fileName
+			            + "' onclick=\"window.open('" + fileName
+			            + "','popup','"
+			            + "width=800,height=1500,toolbar=no,directories=no,location=no,"
+			            + "menubar=no,status=no,left=0,top=0'); return false\">"
+			            + "screenshot" + "</a></b>  <a href='" + driver.getCurrentUrl()
+			            + "' target='_blank' >" + "    url " + "</a>";
+
+			        return link;
+			      } 
+			    return "";
+			  }		  
+
 }

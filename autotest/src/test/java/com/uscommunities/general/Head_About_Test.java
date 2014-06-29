@@ -14,7 +14,7 @@ public class Head_About_Test {
 	 * 
 	 * from Chrome browser
 	 */
-	@Test(groups = "www")
+	@Test
 	
 	public void validateAboutTextFromChrome() {
 		System.setProperty("webdriver.chrome.driver", "c://chromedriver.exe");
@@ -31,7 +31,7 @@ public class Head_About_Test {
 	 * 
 	 * from FireFox browser
 	 */
-	@Test(groups = "www")
+	@Test
 	
 	public void validateAboutTextFromFF() {
 		WebDriver driver = new FirefoxDriver();
@@ -45,15 +45,14 @@ public class Head_About_Test {
 	
 	@Test
 	
-	public void validateAboutTextFromIE11() {
+	public void validateAboutTextFromIE10() {
 		System.setProperty("webdriver.ie.driver", "c://IEDriverServer.exe");
 		WebDriver driver = new InternetExplorerDriver();
-		  HomePageComponent action=new HomePageComponent(driver);
-			action.openProdURL(driver);
-			System.out.println(action.Aboutshowup(driver));
-			Assert.assertEquals(true, action.Aboutshowup(driver)); 
-			
-			driver.quit();		  
+		HomePageComponent action=new HomePageComponent(driver);
+		System.out.println(action.Aboutshowup(driver));
+		action.openProdURL(driver);
+		Assert.assertEquals(true, action.Aboutshowup(driver)); 
+		driver.quit();		  
 	}
 	
 }

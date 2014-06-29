@@ -13,7 +13,9 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -69,6 +71,10 @@ public class HomePageComponent extends WebElmtLocator {
 	
 	public void clickStateMap(WebDriver driver){
 		WebElmtAction.Click(driver, By.xpath(State_Status));
+	}
+	
+	public void clickSupplier(WebDriver driver){
+		WebElmtAction.Click(driver, By.xpath(contactDoc));
 	}
 	
 	public void setBrowserSizeTo760(WebDriver driver){
@@ -154,7 +160,7 @@ public class HomePageComponent extends WebElmtLocator {
 		System.out.println(number);
 		  
 		  Calendar cal = Calendar.getInstance();
-		  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+		  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
 		  String fileName = format.format(cal.getTime());
 		  System.out.println(fileName);
 		  /**
@@ -174,8 +180,7 @@ public class HomePageComponent extends WebElmtLocator {
         	  			catch(IOException e){
         	  			e.printStackTrace();
         		   	   }
-        		  
-        		  //driver.quit();
+
 	  }
 	
 	public void checkAllNewTabsSaveToText(WebDriver driver) throws MalformedURLException, IOException{
@@ -212,4 +217,119 @@ public class HomePageComponent extends WebElmtLocator {
         		  
         		   driver.quit();
 	  }
+	
+	/**
+	 * check duplicate external links 
+	 */
+	public void checkDuplicateLinkandPrint(WebDriver driver) throws MalformedURLException, IOException{
+		WebElmtAction.getElement(driver, By.xpath(link)); 
+		List<WebElement> alllinks = driver.findElements(By.xpath("//*[@href]"));
+		System.out.println("Total the number of links is:" + alllinks.size()); 
+		Set<String> set = new HashSet<String>(); 
+		  
+		  for (int i=0; i<alllinks.size();i++){
+			  String x = alllinks.get(i).getAttribute("href");
+			  for (int j=0; j<alllinks.size(); j++) {
+				  String y = alllinks.get(j).getAttribute("href");
+				  if (x.equals(y) && i!=j) {
+					  set.add(x); 
+				  }
+			  }
+		  }
+		
+		  for (String str: set) {
+				System.out.println("Find duplicate link is:" + str);
+		  }
+		  System.out.println("Total number of duplicate link is:" + set.size());
+	}
+	
+	/**
+	 * check duplicate image files
+	 * Print out duplicate image src file 
+	 */
+	
+	public void checkDuplicateImageandPrint(WebDriver driver) throws MalformedURLException, IOException{
+		WebElmtAction.getElement(driver, By.xpath(link)); 
+		List<WebElement> alllinks = driver.findElements(By.xpath("//img[@src]"));
+		System.out.println("Total the number of image is:" + alllinks.size());
+		Set<String> set = new HashSet<String>(); 
+		
+		/*
+		 * Print out all the links of target pages
+		 * 
+		 * for (int i=0; i<alllinks.size();i++) {
+			  String x = alllinks.get(i).getAttribute("src");
+			  System.out.println("Image url is:" + x);
+		}
+		*/
+		
+		for (int i=0; i<alllinks.size();i++){
+			  String x = alllinks.get(i).getAttribute("src");
+			  for (int j=0; j<alllinks.size(); j++) {
+				  String y = alllinks.get(j).getAttribute("src");
+				  if (x.equals(y) && i!=j) {
+					  set.add(x); 
+				  }
+			  }
+		  }
+		System.out.println("Total number of duplicate image is:" + set.size() +"\n");
+		
+		for (String str: set) {
+			System.out.println("Print duplicate image is:" + str);
+		}
+		  
+	}
+	
+	/**
+	 * Return duplicate image src locations as a array
+	 * 
+	 * Open each src link from driver
+	 */
+	public Set<String> findDuplicateImageandReturn(WebDriver driver) throws MalformedURLException, IOException{
+		WebElmtAction.getElement(driver, By.xpath(link)); 
+		List<WebElement> alllinks = driver.findElements(By.xpath("//img[@src]"));
+		System.out.println("Total the number of image is:" + alllinks.size());
+		Set<String> set = new HashSet<String>(); 
+		
+		for (int i=0; i<alllinks.size();i++) {
+			  String x = alllinks.get(i).getAttribute("src");
+			  System.out.println("Image url is:" + x);
+		}
+		
+		for (int i=0; i<alllinks.size();i++){
+			  String x = alllinks.get(i).getAttribute("src");
+			  for (int j=0; j<alllinks.size(); j++) {
+				  String y = alllinks.get(j).getAttribute("src");
+				  if (x.equals(y) && i!=j) {
+					  set.add(x); 
+				  }
+			  }
+		  }
+		System.out.println("Total number of duplicate image is:" + set.size());
+
+		return set; 
+		  
+	}
+	
+	public void checkDuplicatePDFandPrint(WebDriver driver) throws MalformedURLException, IOException{
+		WebElmtAction.getElement(driver, By.xpath(link)); 
+		List<WebElement> alllinks = driver.findElements(By.xpath("//li[@class='pdf']//a"));
+		System.out.println("Total the number of PDF links is:" + alllinks.size()); 
+		Set<String> set = new HashSet<String>(); 
+		  
+		  for (int i=0; i<alllinks.size();i++){
+			  String x = alllinks.get(i).getAttribute("href");
+			  for (int j=0; j<alllinks.size(); j++) {
+				  String y = alllinks.get(j).getAttribute("href");
+				  if (x.equals(y) && i!=j) {
+					  set.add(x); 
+				  }
+			  }
+		  }
+		
+		  for (String str: set) {
+				System.out.println("Find duplicate PDF is:" + str);
+		  }
+		  System.out.println("Total number of duplicate PDF is:" + set.size());
+	}
 }
