@@ -26,6 +26,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.Select;
 
 import com.sun.jna.platform.FileUtils;
 
@@ -240,7 +241,6 @@ public class WebElmtAction {
 		   URL u= new URL(url);
 		   HttpURLConnection con = (HttpURLConnection)  u.openConnection();
 		   int responseCode = con.getResponseCode();
-
 		   return responseCode;
 		   
 	   }
@@ -314,4 +314,31 @@ public class WebElmtAction {
 			    return "";
 			  }		  
 
+		  /**
+		   * clear web browser cookie
+		   * 
+		   * @param driver
+		   */
+		  public static void clearAllCookies(WebDriver driver) {
+			    driver.manage().deleteAllCookies();
+			  }
+		  
+		  public static void sendKeys(final WebElement webElement, final String textToBeTyped) {
+			    webElement.sendKeys(textToBeTyped);
+			  }
+		  
+		  /**
+
+		   * Select the 'optionOfDropDownList' in the specified webElement.
+
+		   * 
+
+		   * @param webElement
+
+		   * @param optionValue
+
+		   */
+		  public static void dropDown(final Select select, final String optionValue) {
+			  select.selectByValue(optionValue);
+		  }
 }

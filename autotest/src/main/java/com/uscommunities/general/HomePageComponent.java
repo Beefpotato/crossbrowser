@@ -23,6 +23,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.uscommunities.general.WebElmtAction;
+
 public class HomePageComponent extends WebElmtLocator {
 	
 	public HomePageComponent(WebDriver driver){
@@ -105,6 +107,18 @@ public class HomePageComponent extends WebElmtLocator {
 		WebElmtAction.open(driver, wssurl);
 	}
 	
+	public void openProdPFAURL(WebDriver driver) {
+		WebElmtAction.open(driver, prodPFAURL);
+	}
+	
+	public void openPFAMapURL(WebDriver driver) {
+		WebElmtAction.open(driver, mapPFA);
+	}
+	
+	public void open501Form(WebDriver driver) {
+		WebElmtAction.open(driver, nonProfit);
+	}
+	
 	/**
 	 * Open CSCDA meeting agenda link by IE10
 	 * @param driver
@@ -125,7 +139,7 @@ public class HomePageComponent extends WebElmtLocator {
 	public void checkAllLinksPrint(WebDriver driver) throws MalformedURLException, IOException{
 		WebElmtAction.getElement(driver, By.xpath(link)); 
 		List<WebElement> alllinks = driver.findElements(By.xpath("//*[@href]"));
-		  System.out.println(alllinks.size());
+		System.out.println(alllinks.size());
 		  
 		  for (int i=0; i<alllinks.size();i++){
 			  String x = alllinks.get(i).getAttribute("href");
@@ -187,7 +201,7 @@ public class HomePageComponent extends WebElmtLocator {
 		WebElmtAction.getElement(driver, By.xpath(link)); 
 		List<WebElement> alllinks = driver.findElements(By.xpath("//*[@href]"));
 		int number = alllinks.size();
-		  System.out.println(number);
+		System.out.println(number);
 		  
 		  Calendar cal = Calendar.getInstance();
 		  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
@@ -331,5 +345,110 @@ public class HomePageComponent extends WebElmtLocator {
 				System.out.println("Find duplicate PDF is:" + str);
 		  }
 		  System.out.println("Total number of duplicate PDF is:" + set.size());
+	}
+	
+	/**
+	 * 
+	 * Fill out PFA App Forms
+	 * 
+	 * Button and listener behavior actions
+	 * 
+	 */
+	
+	public void clickValidate(WebDriver driver){
+		WebElmtAction.Click(driver, By.xpath(validateBtn));
+	}
+	
+	public void clickNext(WebDriver driver){
+		WebElmtAction.Click(driver, By.xpath(nextBtn));
+	}
+	
+	public void clickPreview(WebDriver driver){
+		WebElmtAction.Click(driver, By.xpath(previewBtn));
+	}
+	
+	public void clickGentPDF(WebDriver driver){
+		WebElmtAction.Click(driver, By.xpath(genPDFBtn));
+	}
+	
+	public void clickSubmit(WebDriver driver){
+		WebElmtAction.Click(driver, By.xpath(sbmtBtn));
+	}
+	
+	public void clearBrowserCookie(WebDriver driver){
+		WebElmtAction.clearAllCookies(driver);  
+	}
+	
+	/**
+	 * 
+	 * Check the number of images of page
+	 *
+	 */
+	public int checkImageDiff(WebDriver driver) {
+		WebElmtAction.getElement(driver, By.xpath(link)); 
+		List<WebElement> alllinks = driver.findElements(By.xpath("//img[@src]"));
+		
+		 for (int i=0; i<alllinks.size(); i++) {
+			  String imageLink = alllinks.get(i).getAttribute("src");
+			  System.out.println("Image link is:" + imageLink);
+		 }
+		
+		int count = alllinks.size();
+		System.out.println("Total the number of image is:" + count);
+		return count; 
+		
+	}
+	
+	/**
+	 * 
+	 * Check the number of links of page
+	 * 
+	 */
+	public int checkLinkDiff(WebDriver driver) {
+		WebElmtAction.getElement(driver, By.xpath(link)); 
+		List<WebElement> alllinks = driver.findElements(By.xpath("//*[@href]"));
+		  
+		  	for (int i=0; i<alllinks.size(); i++) {
+		  		String link = alllinks.get(i).getAttribute("href");
+		  		System.out.println("Image link is:" + link);
+		  	}
+		  
+			int count = alllinks.size();
+			System.out.println("Total the number of link is:" + count);
+			return count;
+		  
+		}
+	
+	/**
+	 * 
+	 * Check page has different PDF link
+	 * 
+	 */
+	public int checkPDFDiff(WebDriver driver) {
+		WebElmtAction.getElement(driver, By.xpath(link)); 
+		List<WebElement> alllinks = driver.findElements(By.xpath("//li[@class='pdf']//a"));
+		
+		for (int i=0; i<alllinks.size(); i++) {
+	  		String link = alllinks.get(i).getAttribute("href");
+	  		System.out.println("PDF link is:" + link);
+	  	}
+	  
+		int count = alllinks.size();
+		System.out.println("Total the number of PDF is:" + count);
+		return count;
+	  
+		}
+
+	/**
+	 * Check news column session modification
+	 * 
+	 */
+	public int checkNewsSessionPrint(WebDriver driver) {
+		List<WebElement> newsNumber = driver.findElements(By.xpath(News));
+		int count = newsNumber.size();
+		System.out.println(count);
+		
+		return count; 
+				  
 	}
 }
