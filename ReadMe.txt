@@ -1,0 +1,3 @@
+There are layers of test automation frameworks: 
+1st called General package includes all the methods will be used by all the unit test cases, exception file, elements of page and cross browser settings. Each unit test cases can call General package and easily maintain and extend natural frameworks. I just leave a method and exception file at general package.
+2nd called Test package, it structured by domain name and contents all the unit test cases what need test. If you have different domains, highly recommended to structure different package under Test.   
